@@ -1,0 +1,6 @@
+@sisNet_HostAddress = http://localhost:5139
+
+GET {{sisNet_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###
