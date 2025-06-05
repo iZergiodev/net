@@ -37,11 +37,38 @@ namespace sisNet.Controllers
             if (cliente == null || cliente.Role != UserRole.Cliente)
                 return NotFound(new { message = "Cliente no encontrado" });
 
-            // Generar token para el cliente
-            var token = _authService.Authenticate(cliente.Username, cliente.Password);
-            if (token == null)
-                return StatusCode(500, new { message = "No se pudo generar el token para el cliente" });
+            if (cliente is User userObj)
+            {
+                var token = _authService.GenerateTokenForUser(userObj, User);
+                return Ok(new { token });
+            }
+            else
+            {
+                return StatusCode(500, new { message = "No se pudo generar el token para el cliente (tipo inesperado)" });
+            }
+        }
 
+        [HttpPost("restore-impersonator")]
+        [Authorize]
+        public IActionResult RestoreImpersonator()
+        {
+            var originalUserId = User.FindFirst("original_user_id")?.Value;
+            var originalUserRole = User.FindFirst("original_user_role")?.Value;
+            if (string.IsNullOrEmpty(originalUserId) || string.IsNullOrEmpty(originalUserRole))
+            {
+                return BadRequest(new { message = "No se encontraron datos de usuario original en el token." });
+            }
+
+            // Buscar el usuario original por ID
+            if (!int.TryParse(originalUserId, out int id))
+                return BadRequest(new { message = "ID de usuario original inválido." });
+
+            var usuarioOriginal = _userRepository.GetById(id);
+            if (usuarioOriginal is not User userObj)
+                return NotFound(new { message = "Usuario original no encontrado." });
+
+            // Generar un nuevo token para el usuario original (sin claims de suplantación)
+            var token = _authService.GenerateTokenForUser(userObj);
             return Ok(new { token });
         }
     }

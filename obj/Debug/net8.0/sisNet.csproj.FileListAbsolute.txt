@@ -38,3 +38,4 @@ C:\Users\angel\Desktop\Tandem\sisNET\sisNet\bin\Debug\net8.0\System.IdentityMode
 C:\Users\angel\Desktop\Tandem\sisNET\sisNet\bin\Debug\net8.0\Microsoft.AspNetCore.Authentication.JwtBearer.dll
 C:\Users\angel\Desktop\Tandem\sisNET\sisNet\bin\Debug\net8.0\Microsoft.IdentityModel.Protocols.dll
 C:\Users\angel\Desktop\Tandem\sisNET\sisNet\bin\Debug\net8.0\Microsoft.IdentityModel.Protocols.OpenIdConnect.dll
+C:\Users\angel\Desktop\Tandem\sisNET\sisNet\obj\Debug\net8.0\sisNet.sourcelink.json
